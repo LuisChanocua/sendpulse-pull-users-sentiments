@@ -1,0 +1,1 @@
+*/30 * * * * python /app/app/sendpulse_whatsapp_pull.py >> /app/out/cron.log 2>&1

@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  runner:
+    build: .
+    image: sendpulse-whatsapp:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/out
+    command: ["python", "app/sendpulse_whatsapp_pull.py"]
+
+  # scheduler:   # 🔒 FUTURO: cuando quieras activar cron
+  #   build: .
+  #   image: sendpulse-whatsapp:latest
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./data:/app/out
+  #     - ./app/crontab:/app/crontab:ro
+  #   entrypoint: ["/bin/sh","-lc"]
+  #   command: >
+  #     "set -e;
+  #      wget -qO /usr/local/bin/supercronic https://github.com/aptible/supercronic/releases/download/v0.2.29/supercronic-linux-amd64 &&
+  #      chmod +x /usr/local/bin/supercronic &&
+  #      supercronic /app/crontab"
