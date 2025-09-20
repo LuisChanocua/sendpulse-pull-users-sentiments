@@ -1,19 +1,31 @@
 version: "3.9"
+
 services:
   runner:
     build: .
     image: sendpulse-whatsapp:latest
-    env_file:
-      - .env
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      - SP_CLIENT_ID
+      - SP_CLIENT_SECRET
+      - SINCE
+      - UNTIL
     volumes:
       - ./data:/app/out
     command: ["python", "app/sendpulse_whatsapp_pull.py"]
 
-  # scheduler:   # 🔒 FUTURO: cuando quieras activar cron
+  # scheduler (futuro, desactivado)
+  # scheduler:
   #   build: .
   #   image: sendpulse-whatsapp:latest
+  #   user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
   #   env_file:
-  #     - .env
+  #     - ${ENV_FILE:-.env}
+  #   environment:
+  #     - SP_CLIENT_ID=${SP_CLIENT_ID}
+  #     - SP_CLIENT_SECRET=${SP_CLIENT_SECRET}
+  #     - SINCE=${SINCE}
+  #     - UNTIL=${UNTIL}
   #   volumes:
   #     - ./data:/app/out
   #     - ./app/crontab:/app/crontab:ro
